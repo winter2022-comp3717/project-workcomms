@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/xzhu1/AndroidStudioProjects/project-workcomms/app/src/main/res/drawable/ic_launcher_background.xml" value="0.26" />
+        <entry key="..\:/Users/xzhu1/AndroidStudioProjects/project-workcomms/app/src/main/res/layout/activity_main.xml" value="0.28940217391304346" />
+        <entry key="..\:/Users/xzhu1/AndroidStudioProjects/project-workcomms/app/src/main/res/layout/activity_registration.xml" value="0.28940217391304346" />
+        <entry key="..\:/Users/xzhu1/AndroidStudioProjects/project-workcomms/app/src/main/res/layout/fragment_employee_registration.xml" value="0.28940217391304346" />
+        <entry key="..\:/Users/xzhu1/AndroidStudioProjects/project-workcomms/app/src/main/res/layout/fragment_employer_registration.xml" value="0.28940217391304346" />
+        <entry key="..\:/Users/xzhu1/AndroidStudioProjects/project-workcomms/app/src/main/res/layout/fragment_user_registration.xml" value="0.28940217391304346" />
+      </map>
+    </option>
+  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
