@@ -7,4 +7,12 @@
     <string name="registration">Registration</string>
     <string name="employee_id">Employee ID</string>
     <string name="employer_id">Employer ID</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="register_as">Register as :</string>
+    <string name="log_in">Log In</string>
+    <string name="login">Login</string>
+    <string name="hello_user">Hello User</string>
+    <string name="logout">LogOut</string>
 </resources>
