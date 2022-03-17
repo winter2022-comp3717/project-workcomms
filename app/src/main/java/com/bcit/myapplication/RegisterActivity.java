@@ -75,6 +75,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         CollectionReference UsersDb = db.collection("Users");
         User user = new User(name_field, usertype_field, email_field);
+        Intent mainActivity = new Intent(this, MainActivity.class);
 
 
         if(name_field.equals("")){
@@ -103,6 +104,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
                                     progressBar.setVisibility(View.GONE);
+                                    startActivity(mainActivity);
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
