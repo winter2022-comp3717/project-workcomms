@@ -1,17 +1,28 @@
 package com.bcit.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Binder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.sql.SQLOutput;
 
 public class MainMenu extends AppCompatActivity implements View.OnClickListener {
     private Button logout;
@@ -30,6 +41,24 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         firebaseUser = firebaseAuth.getCurrentUser();
         TextView message = findViewById(R.id.message_main_menu);
         message.setText(firebaseUser.getEmail());
+        DocumentReference docRef = db.collection("cities").document();
+        Query query = db.collection("Users").whereEqualTo("email", firebaseUser.getEmail());
+        db.collection("Users")
+                .whereEqualTo("email", firebaseUser.getEmail())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                message.setText(document.getData().get("email").toString());
+                                Log.d("TAG", document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                            Log.d("TAG", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 
     @Override
