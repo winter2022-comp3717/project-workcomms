@@ -51,7 +51,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                message.setText(document.getData().get("email").toString());
+                                message.setText(document.getData().get("name").toString());
                                 Log.d("TAG", document.getId() + " => " + document.getData());
                             }
                         } else {

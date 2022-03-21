@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -74,8 +75,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar_registration);
 
         CollectionReference UsersDb = db.collection("Users");
-        User user = new User(name_field, usertype_field, email_field);
+        //User user = new User(name_field, usertype_field, email_field);
         Intent mainActivity = new Intent(this, MainActivity.class);
+
+        Intent mainMenu = new Intent(this, MainMenu.class);
 
 
         if(name_field.equals("")){
@@ -100,18 +103,33 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            UsersDb.add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    progressBar.setVisibility(View.GONE);
-                                    startActivity(mainActivity);
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    progressBar.setVisibility(View.GONE);
-                                }
-                            });
+                            firebaseAuth.signInWithEmailAndPassword(email_field, password_field)
+                                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            if(task.isSuccessful()){
+                                                User user = new User(name_field, usertype_field, firebaseAuth.getCurrentUser().getUid());
+                                                UsersDb.add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                    @Override
+                                                    public void onSuccess(DocumentReference documentReference) {
+                                                        progressBar.setVisibility(View.GONE);
+                                                        //startActivity(mainActivity);
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        progressBar.setVisibility(View.GONE);
+                                                    }
+                                                });
+                                                startActivity(mainMenu);
+                                            } else {
+                                                return;
+                                            }
+                                        }
+                                    });
+
+
+
                         } else {
                             progressBar.setVisibility(View.GONE);
                         }

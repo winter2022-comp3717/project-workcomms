@@ -4,12 +4,12 @@ import java.io.Serializable;
 
 public class User implements Serializable {
     private final String name;
-    private final String email;
+    private final String UID;
     private final String userType;
-    public User (String name, String type, String email) {
+    public User (String name, String type, String UID) {
         this.name = name;
         this.userType = type;
-        this.email = email;
+        this.UID = UID;
     }
 
     public String getName() {
@@ -20,7 +20,7 @@ public class User implements Serializable {
         return userType;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUID() {
+        return UID;
     }
 }
