@@ -12,10 +12,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="10dp"
         android:gravity="center"
         android:text="@string/registration"
         android:textSize="34sp" />
+
+    <Spinner
+        android:id="@+id/spinner_company_registration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="20dp"
+        android:contentDescription="@string/Company"
+        android:minHeight="48dp"
+        android:spinnerMode="dropdown" />
 
     <TextView
         android:id="@+id/textView_registration_name"
@@ -24,7 +35,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:text="@string/name"
-        android:textSize="22sp" />
+        android:textSize="16sp" />
 
     <EditText
         android:id="@+id/edit_text_name_registration"
@@ -36,6 +47,7 @@
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:textAlignment="center"
+        android:textSize="16sp"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
@@ -45,7 +57,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:text="@string/email"
-        android:textSize="22sp" />
+        android:textSize="16sp" />
 
     <EditText
         android:id="@+id/edit_text_email_registration"
@@ -56,6 +68,7 @@
         android:ems="10"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
+        android:textSize="16sp"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
@@ -65,7 +78,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:text="@string/password"
-        android:textSize="22sp" />
+        android:textSize="16sp" />
 
     <EditText
         android:id="@+id/edit_text_password_registration"
@@ -78,6 +91,7 @@
         android:minHeight="48dp"
         android:password="true"
         android:textAlignment="center"
+        android:textSize="16sp"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView

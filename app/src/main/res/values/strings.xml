@@ -7,7 +7,6 @@
     <string name="registration">Registration</string>
     <string name="employee_id">Employee ID</string>
     <string name="employer_id">Employer ID</string>
-    <string name="name">Name</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="register_as">Register as :</string>
@@ -15,4 +14,13 @@
     <string name="login">Login</string>
     <string name="hello_user">Hello User</string>
     <string name="logout">LogOut</string>
+    <string name="Company">Company</string>
+    <string name="Register_the_company_header">Register the Workplace</string>
+    <string name="name">Name</string>
+    <string name="license">License #</string>
+    <string name="location">Location</string>
+    <string name="register_company">Register Company</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="enter_license">Enter License #</string>
+    <string name="enter_location">Enter Location</string>
 </resources>
