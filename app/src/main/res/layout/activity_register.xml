@@ -159,4 +159,12 @@
         android:gravity="center"
         android:text="Already have an account? Login now" />
 
+    <TextView
+        android:id="@+id/textView_register_company_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="Want to set up a Workplace? Register here" />
+
 </LinearLayout>

@@ -40,11 +40,9 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         logout.setOnClickListener(this);
         firebaseUser = firebaseAuth.getCurrentUser();
         TextView message = findViewById(R.id.message_main_menu);
-        message.setText(firebaseUser.getEmail());
         DocumentReference docRef = db.collection("cities").document();
-        Query query = db.collection("Users").whereEqualTo("email", firebaseUser.getEmail());
         db.collection("Users")
-                .whereEqualTo("email", firebaseUser.getEmail())
+                .whereEqualTo("uid", firebaseUser.getUid())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
