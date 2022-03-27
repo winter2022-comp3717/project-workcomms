@@ -8,15 +8,26 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
 public class PostRecyclerFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
+    private PostRecyclerAdapter adapter;
+    private FirebaseFirestore db;
 
     private ArrayList<PostModel> mParam1;
 
@@ -49,10 +60,43 @@ public class PostRecyclerFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        db = FirebaseFirestore.getInstance();
         RecyclerView recyclerView = view.findViewById(R.id.recycler_post_viewer);
-        PostRecyclerAdapter adapter = new PostRecyclerAdapter(mParam1);
+        adapter = new PostRecyclerAdapter(mParam1);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        EventListenerOnPostsAdded();
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    private void EventListenerOnPostsAdded() {
+        db.collection("Posts")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            Log.e("Firestore error", error.getMessage());
+                            return;
+                        }
+
+                        for (DocumentChange dc : value.getDocumentChanges()) {
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                                QueryDocumentSnapshot snapshot = dc.getDocument();
+                                String companyID = snapshot.getData().get("CompanyID").toString();
+                                String posterName = snapshot.getData().get("PosterName").toString();
+                                String senderId = snapshot.getData().get("SenderID").toString();
+                                String message = snapshot.getData().get("message").toString();
+                                PostModel newPost = new PostModel(
+                                        companyID,
+                                        posterName,
+                                        senderId,
+                                        message);
+                                mParam1.add(newPost);
+                            }
+                        }
+
+                        adapter.notifyDataSetChanged();
+                    }
+                });
     }
 }

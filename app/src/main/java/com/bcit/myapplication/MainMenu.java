@@ -50,33 +50,36 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     }
 
     private void queryPosts() {
-        db.collection("Posts")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot doc : task.getResult()) {
-                                String companyID = doc.getData().get("CompanyID").toString();
-                                String posterName = doc.getData().get("PosterName").toString();
-                                String senderId = doc.getData().get("SenderID").toString();
-                                String message = doc.getData().get("message").toString();
-                                PostModel post = new PostModel(
-                                        companyID,
-                                        posterName,
-                                        senderId,
-                                        message);
-                                posts.add(post);
-                            }
-                            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                            ft.replace(R.id.fragmentContainerView_main_menu, PostRecyclerFragment.newInstance(posts));
-                            ft.commit();
-                        }
-                        else {
-                            Log.d("TAG", "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragmentContainerView_main_menu, PostRecyclerFragment.newInstance(posts));
+        ft.commit();
+//        db.collection("Posts")
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot doc : task.getResult()) {
+//                                String companyID = doc.getData().get("CompanyID").toString();
+//                                String posterName = doc.getData().get("PosterName").toString();
+//                                String senderId = doc.getData().get("SenderID").toString();
+//                                String message = doc.getData().get("message").toString();
+//                                PostModel post = new PostModel(
+//                                        companyID,
+//                                        posterName,
+//                                        senderId,
+//                                        message);
+//                                posts.add(post);
+//                            }
+//                            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//                            ft.replace(R.id.fragmentContainerView_main_menu, PostRecyclerFragment.newInstance(posts));
+//                            ft.commit();
+//                        }
+//                        else {
+//                            Log.d("TAG", "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
     }
 
     /**
