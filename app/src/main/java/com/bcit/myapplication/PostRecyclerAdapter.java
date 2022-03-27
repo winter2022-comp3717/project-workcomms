@@ -1,5 +1,6 @@
 package com.bcit.myapplication;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 
 public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapter.ViewHolder> {
 
-    //2D array
-    // ie, [[poster1, post1], [poster2, post2], [poster3, post3]]
-    private String[][] localDataSet;
+    private ArrayList<PostModel> localDataSet;
 
     /**
      * Provide a reference to the type of views that you are using
@@ -45,7 +46,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
      * @param dataSet String[] containing the data to populate views to be used
      *                by RecyclerView.
      */
-    public PostRecyclerAdapter(String[][] dataSet) {
+    public PostRecyclerAdapter(ArrayList<PostModel> dataSet) {
         localDataSet = dataSet;
     }
 
@@ -65,13 +66,13 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.getInputName().setText(localDataSet[position][0]);
-        viewHolder.getInputPost().setText(localDataSet[position][1]);
+        viewHolder.getInputName().setText(localDataSet.get(position).getPosterName());
+        viewHolder.getInputPost().setText(localDataSet.get(position).getMessage());
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return localDataSet.length;
+        return localDataSet.size();
     }
 }

@@ -17,7 +17,6 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView_main_menu"
-        android:name="com.bcit.myapplication.PostRecyclerFragment"
         android:layout_width="match_parent"
         android:layout_height="516dp" />
 

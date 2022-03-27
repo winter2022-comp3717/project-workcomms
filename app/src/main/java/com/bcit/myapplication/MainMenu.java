@@ -2,6 +2,7 @@ package com.bcit.myapplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Binder;
@@ -23,12 +24,14 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 
 public class MainMenu extends AppCompatActivity implements View.OnClickListener {
     private Button logout;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
     private FirebaseUser firebaseUser;
+    private ArrayList<PostModel> posts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,38 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         TextView message = findViewById(R.id.message_main_menu);
         setUserTextView(db, message);
         DocumentReference docRef = db.collection("cities").document();
+        posts = new ArrayList<PostModel>();
+        queryPosts();
+    }
+
+    private void queryPosts() {
+        db.collection("Posts")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                String companyID = doc.getData().get("CompanyID").toString();
+                                String posterName = doc.getData().get("PosterName").toString();
+                                String senderId = doc.getData().get("SenderID").toString();
+                                String message = doc.getData().get("message").toString();
+                                PostModel post = new PostModel(
+                                        companyID,
+                                        posterName,
+                                        senderId,
+                                        message);
+                                posts.add(post);
+                            }
+                            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                            ft.replace(R.id.fragmentContainerView_main_menu, PostRecyclerFragment.newInstance(posts));
+                            ft.commit();
+                        }
+                        else {
+                            Log.d("TAG", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 
     /**
