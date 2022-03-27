@@ -40,7 +40,17 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         logout.setOnClickListener(this);
         firebaseUser = firebaseAuth.getCurrentUser();
         TextView message = findViewById(R.id.message_main_menu);
+        setUserTextView(db, message);
         DocumentReference docRef = db.collection("cities").document();
+    }
+
+    /**
+     * Set welcome message textView to the current logged in user.
+     *
+     * @param db FireBaseFirestore instance
+     * @param message a TextView
+     */
+    private void setUserTextView(FirebaseFirestore db, TextView message) {
         db.collection("Users")
                 .whereEqualTo("uid", firebaseUser.getUid())
                 .get()
@@ -58,7 +68,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                     }
                 });
     }
-
     @Override
     public void onClick(View view) {
         Intent loginActivity = new Intent(MainMenu.this, MainActivity.class);
