@@ -23,6 +23,6 @@
     <string name="enter_name">Enter Name</string>
     <string name="enter_license">Enter License #</string>
     <string name="enter_location">Enter Location</string>
-    <string name="items_poster_name_label">Name:</string>
+    <string name="items_poster_name_label">Poster:</string>
     <string name="input_poster_name">input poster name</string>
 </resources>
