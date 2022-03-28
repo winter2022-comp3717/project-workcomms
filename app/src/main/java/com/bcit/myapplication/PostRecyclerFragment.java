@@ -72,7 +72,7 @@ public class PostRecyclerFragment extends Fragment {
     }
 
     private void EventListenerOnPostsAdded() {
-        db.collection("Posts").orderBy("dateTime", Query.Direction.DESCENDING)
+        db.collection("Posts").orderBy("dateTime", Query.Direction.ASCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -85,9 +85,9 @@ public class PostRecyclerFragment extends Fragment {
                             for (DocumentChange dc : value.getDocumentChanges()) {
                                 if (dc.getType() == DocumentChange.Type.ADDED) {
                                     QueryDocumentSnapshot snapshot = dc.getDocument();
-                                    String companyID = (String) snapshot.getData().get("CompanyID");
-                                    String posterName = (String) snapshot.getData().get("PosterName");
-                                    String senderId = (String) snapshot.getData().get("SenderID");
+                                    String companyID = (String) snapshot.getData().get("companyID");
+                                    String posterName = (String) snapshot.getData().get("posterName");
+                                    String senderId = (String) snapshot.getData().get("senderID");
                                     long dateTime = (long) snapshot.getData().get("dateTime");
                                     String message = snapshot.getData().get("message").toString();
                                     PostModel newPost = new PostModel(
@@ -95,7 +95,7 @@ public class PostRecyclerFragment extends Fragment {
                                             posterName,
                                             senderId,
                                             dateTime, message);
-                                    mParam1.add(newPost);
+                                    mParam1.add(0, newPost);
                                 }
                             }
                         }
