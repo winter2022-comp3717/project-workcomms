@@ -45,6 +45,11 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     private ArrayList<PostModel> posts;
     private User user;
 
+    /**
+     * Initialize the essential components on this activity.
+     *
+     * @param savedInstanceState a Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +74,10 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         ft.commit();
     }
 
+    /**
+     * Query from the user type information from database and go to the corresponding
+     * fragment with the right bottom navbar.
+     */
     private void navbarTest() {
         db.collection("Users")
                 .whereEqualTo("uid", firebaseUser.getUid())
@@ -143,6 +152,11 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                 });
     }
 
+    /**
+     * Sign out the user.
+     *
+     * @param view a View
+     */
     @Override
     public void onClick(View view) {
         Intent loginActivity = new Intent(MainMenu.this, MainActivity.class);

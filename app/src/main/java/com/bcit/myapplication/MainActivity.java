@@ -32,6 +32,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
 
+    /**
+     * Initialize the essential components on this activity.
+     *
+     * @param savedInstanceState a Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

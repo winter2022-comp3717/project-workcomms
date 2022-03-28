@@ -4,6 +4,9 @@ import androidx.fragment.app.FragmentContainerView;
 
 import java.io.Serializable;
 
+/**
+ * Creates a model for fragment container view.
+ */
 public class FragmentContainerViewModel implements Serializable {
     private FragmentContainerView fragmentContainerView;
 
