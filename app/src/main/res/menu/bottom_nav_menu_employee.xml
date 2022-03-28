@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Group"
+        android:icon="@drawable/ic_group"
+        android:id="@+id/groupFragment"/>
+    <item android:title="Group Post"
+        android:icon="@drawable/ic_group_post"
+        android:id="@+id/groupPostFragment"/>
+    <item android:title="Comment"
+        android:icon="@drawable/ic_comment"
+        android:id="@+id/commentPostFragment"/>
+</menu>

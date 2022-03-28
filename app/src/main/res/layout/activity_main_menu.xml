@@ -44,4 +44,8 @@
             style="?android:attr/buttonBarButtonStyle" />
     </LinearLayout>
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView_bot_nav_main_menu"
+        android:layout_width="match_parent"
+        android:layout_height="141dp" />
 </LinearLayout>

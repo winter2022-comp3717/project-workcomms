@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Arrange Group"
+        android:icon="@drawable/ic_group_add"
+        android:id="@+id/group_add"/>
+    <item android:title="Post"
+        android:icon="@drawable/ic_post_add"
+        android:id="@+id/add_post"/>
+    <item android:title="Comment"
+        android:icon="@drawable/ic_comment"
+        android:id="@+id/comment"/>
+</menu>
