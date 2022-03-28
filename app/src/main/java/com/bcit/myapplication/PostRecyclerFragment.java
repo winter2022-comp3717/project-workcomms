@@ -124,9 +124,9 @@ public class PostRecyclerFragment extends Fragment {
                                         senderId,
                                         dateTime, message);
                                 mParam1.add(0, newPost);
-                                adapter.notifyDataSetChanged();
+                                //adapter.notifyDataSetChanged();
                             }
-                            adapter.notifyDataSetChanged();
+                            //adapter.notifyDataSetChanged();
                         }
                         adapter.notifyDataSetChanged();
                     }
