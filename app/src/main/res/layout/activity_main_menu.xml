@@ -14,16 +14,20 @@
 
         <TextView
             android:id="@+id/message_main_menu"
-            android:layout_width="200dp"
-            android:layout_height="35dp"
+            android:layout_width="357dp"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:text="@string/hello_user" />
+            android:text="@string/hello_user"
+            android:textSize="20sp" />
 
-        <Button
+        <ImageButton
             android:id="@+id/logout_main_menu"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="@string/logout" />
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/logout"
+            android:padding="15dp"
+            app:srcCompat="@android:drawable/ic_lock_power_off"
+            tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
 
     <androidx.fragment.app.FragmentContainerView

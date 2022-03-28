@@ -1,6 +1,10 @@
 package com.bcit.myapplication;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,11 +12,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -20,16 +23,16 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.type.DateTime;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class PostRecyclerFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
-    private PostRecyclerAdapter adapter;
+    public PostRecyclerAdapter adapter;
     private FirebaseFirestore db;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
 
     private ArrayList<PostModel> mParam1;
 
@@ -63,16 +66,42 @@ public class PostRecyclerFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
         RecyclerView recyclerView = view.findViewById(R.id.recycler_post_viewer);
         adapter = new PostRecyclerAdapter(mParam1);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        EventListenerOnPostsAdded();
+        //EventListenerOnPostsAdded();
+        helper();
+
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void EventListenerOnPostsAdded() {
-        db.collection("Posts").orderBy("dateTime", Query.Direction.ASCENDING)
+    private void helper(){
+        db.collection("Users")
+                .whereEqualTo("uid", firebaseUser.getUid())
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for (QueryDocumentSnapshot doc: task.getResult()){
+                        EventListenerOnPostsAdded(doc.getData().get("companyID").toString());
+                    }
+                }
+            }
+
+        });
+
+    }
+
+
+    private void EventListenerOnPostsAdded(String companyID) {
+
+
+        db.collection("Posts")
+                .whereEqualTo("companyID", companyID)
+                .orderBy("dateTime", Query.Direction.ASCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -81,27 +110,31 @@ public class PostRecyclerFragment extends Fragment {
                             return;
                         }
 
-                        if (value != null) {
-                            for (DocumentChange dc : value.getDocumentChanges()) {
-                                if (dc.getType() == DocumentChange.Type.ADDED) {
-                                    QueryDocumentSnapshot snapshot = dc.getDocument();
-                                    String companyID = (String) snapshot.getData().get("companyID");
-                                    String posterName = (String) snapshot.getData().get("posterName");
-                                    String senderId = (String) snapshot.getData().get("senderID");
-                                    long dateTime = (long) snapshot.getData().get("dateTime");
-                                    String message = snapshot.getData().get("message").toString();
-                                    PostModel newPost = new PostModel(
-                                            companyID,
-                                            posterName,
-                                            senderId,
-                                            dateTime, message);
-                                    mParam1.add(0, newPost);
-                                }
+                        for (DocumentChange dc : value.getDocumentChanges()) {
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                                QueryDocumentSnapshot snapshot = dc.getDocument();
+                                String companyID = (String) snapshot.getData().get("companyID");
+                                String posterName = (String) snapshot.getData().get("posterName");
+                                String senderId = (String) snapshot.getData().get("senderID");
+                                long dateTime = (long) snapshot.getData().get("dateTime");
+                                String message = snapshot.getData().get("message").toString();
+                                PostModel newPost = new PostModel(
+                                        companyID,
+                                        posterName,
+                                        senderId,
+                                        dateTime, message);
+                                mParam1.add(0, newPost);
+                                adapter.notifyDataSetChanged();
                             }
+                            adapter.notifyDataSetChanged();
                         }
-
                         adapter.notifyDataSetChanged();
                     }
+
                 });
+
+
+
+
     }
 }

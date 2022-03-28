@@ -15,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,7 +37,7 @@ import java.util.Date;
 import java.util.EventListener;
 
 public class MainMenu extends AppCompatActivity implements View.OnClickListener {
-    private Button logout;
+    private ImageButton logout;
     private Button post_btn;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
@@ -47,7 +49,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-        logout = (Button) findViewById(R.id.logout_main_menu);
+        logout = (ImageButton) findViewById(R.id.logout_main_menu);
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         logout.setOnClickListener(this);
