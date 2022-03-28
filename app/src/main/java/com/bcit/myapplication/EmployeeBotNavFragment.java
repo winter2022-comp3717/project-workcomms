@@ -115,8 +115,8 @@ public class EmployeeBotNavFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        MenuItem menuItem = view.findViewById(R.id.groupFragment);
-        this.group = menuItem;
+//        MenuItem menuItem = view.findViewById(R.id.groupFragment);
+//        this.group = menuItem;
     }
 
     public MenuItem getGroup() {
