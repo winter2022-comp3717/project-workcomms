@@ -19,9 +19,17 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * Creates the RegisterCompany Activity.
+ */
 public class RegisterCompany extends AppCompatActivity {
     private FirebaseFirestore db;
 
+    /**
+     * Initialize the essential components on this activity.
+     *
+     * @param savedInstanceState a Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +39,9 @@ public class RegisterCompany extends AppCompatActivity {
 
     }
 
+    /**
+     * Updates the company info to the firebase.
+     */
     public void registerCompany(){
         Button registerCompany = (Button) findViewById(R.id.button_register_company_register_activity);
         EditText nameOfTheCompany = (EditText) findViewById(R.id.editText_company_name);
