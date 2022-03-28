@@ -1,15 +1,19 @@
 package com.bcit.myapplication;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,12 +26,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.type.DateTime;
 
 import java.sql.SQLOutput;
+import java.text.DateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainMenu extends AppCompatActivity implements View.OnClickListener {
     private Button logout;
+    private Button post_btn;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
     private FirebaseUser firebaseUser;
@@ -38,6 +47,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
         logout = (Button) findViewById(R.id.logout_main_menu);
+        post_btn = (Button) findViewById(R.id.post_btn);
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         logout.setOnClickListener(this);
@@ -47,6 +57,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         DocumentReference docRef = db.collection("cities").document();
         posts = new ArrayList<PostModel>();
         queryPosts();
+        post();
     }
 
     private void queryPosts() {
@@ -57,7 +68,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 //                .get()
 //                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 //                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
 //                        if (task.isSuccessful()) {
 //                            for (QueryDocumentSnapshot doc : task.getResult()) {
 //                                String companyID = doc.getData().get("CompanyID").toString();
@@ -106,6 +117,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                     }
                 });
     }
+
     @Override
     public void onClick(View view) {
         Intent loginActivity = new Intent(MainMenu.this, MainActivity.class);
@@ -118,4 +130,95 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                 return;
         }
     }
+
+    public void post(){
+        post_btn.setOnClickListener(new View.OnClickListener() {
+            String input_text  = "";
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainMenu.this);
+                builder.setTitle("Make a post");
+                final EditText input = new EditText(MainMenu.this);
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+
+                builder.setPositiveButton("POST", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        input_text = input.getText().toString();
+                        db.collection("Users").whereEqualTo("email", firebaseUser.getEmail()).get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()){
+                                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                                                String companyID = documentSnapshot.getData().get("companyID").toString();
+                                                String posterName = documentSnapshot.getData().get("name").toString();
+                                                String senderID = documentSnapshot.getId();
+                                                long dateTime = System.currentTimeMillis();
+                                                PostModel postModel = new PostModel(companyID, posterName, senderID, dateTime, input_text);
+                                                db.collection("Posts").add(postModel).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                        if (task.isSuccessful()){
+                                                            Log.d("Tag", "Added post");
+                                                        }
+                                                        else {
+                                                            Log.d("Tag", "Failed to add post");
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    }
+                                });
+
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                builder.show();
+            }
+        });
+    }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

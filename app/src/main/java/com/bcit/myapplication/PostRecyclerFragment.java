@@ -14,13 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.type.DateTime;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class PostRecyclerFragment extends Fragment {
@@ -70,7 +72,7 @@ public class PostRecyclerFragment extends Fragment {
     }
 
     private void EventListenerOnPostsAdded() {
-        db.collection("Posts")
+        db.collection("Posts").orderBy("dateTime", Query.Direction.DESCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -79,19 +81,22 @@ public class PostRecyclerFragment extends Fragment {
                             return;
                         }
 
-                        for (DocumentChange dc : value.getDocumentChanges()) {
-                            if (dc.getType() == DocumentChange.Type.ADDED) {
-                                QueryDocumentSnapshot snapshot = dc.getDocument();
-                                String companyID = snapshot.getData().get("CompanyID").toString();
-                                String posterName = snapshot.getData().get("PosterName").toString();
-                                String senderId = snapshot.getData().get("SenderID").toString();
-                                String message = snapshot.getData().get("message").toString();
-                                PostModel newPost = new PostModel(
-                                        companyID,
-                                        posterName,
-                                        senderId,
-                                        message);
-                                mParam1.add(newPost);
+                        if (value != null) {
+                            for (DocumentChange dc : value.getDocumentChanges()) {
+                                if (dc.getType() == DocumentChange.Type.ADDED) {
+                                    QueryDocumentSnapshot snapshot = dc.getDocument();
+                                    String companyID = (String) snapshot.getData().get("CompanyID");
+                                    String posterName = (String) snapshot.getData().get("PosterName");
+                                    String senderId = (String) snapshot.getData().get("SenderID");
+                                    long dateTime = (long) snapshot.getData().get("dateTime");
+                                    String message = snapshot.getData().get("message").toString();
+                                    PostModel newPost = new PostModel(
+                                            companyID,
+                                            posterName,
+                                            senderId,
+                                            dateTime, message);
+                                    mParam1.add(newPost);
+                                }
                             }
                         }
 
