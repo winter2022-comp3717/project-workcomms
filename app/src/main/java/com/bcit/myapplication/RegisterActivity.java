@@ -29,7 +29,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
     private FirebaseAuth firebaseAuth;
@@ -114,7 +113,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         Spinner spinnerCompany = (Spinner) findViewById(R.id.spinner_company_registration);
         String companyName = spinnerCompany.getSelectedItem().toString();
         CollectionReference UsersDb = db.collection("Users");
-        Intent mainMenu = new Intent(this, MainMenu.class);
+        Intent mainMenu = new Intent(this, EmployerMainMenu.class);
 
 
         if(spinnerCompany.getAdapter().getCount() == 0){

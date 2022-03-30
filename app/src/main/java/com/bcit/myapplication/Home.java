@@ -14,7 +14,7 @@ public class Home extends Application {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
         if (firebaseUser != null) {
-            startActivity(new Intent(Home.this, MainMenu.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            startActivity(new Intent(Home.this, EmployerMainMenu.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else {
             startActivity(new Intent(this, StartPageRegisterOptions.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         }

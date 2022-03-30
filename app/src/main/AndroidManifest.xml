@@ -23,7 +23,7 @@
             android:name=".RegisterActivity"
             android:exported="true" />
         <activity
-            android:name=".MainMenu"
+            android:name=".EmployerMainMenu"
             android:exported="true" />
         <activity
             android:name=".MainActivity"

@@ -16,27 +16,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.type.DateTime;
 
-import java.sql.SQLOutput;
-import java.text.DateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.EventListener;
 
-public class MainMenu extends AppCompatActivity implements View.OnClickListener {
+public class EmployerMainMenu extends AppCompatActivity implements View.OnClickListener {
     private ImageButton logout;
     private Button post_btn;
     private FirebaseAuth firebaseAuth;
@@ -53,7 +47,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_menu);
+        setContentView(R.layout.activity_main_menu_employer);
         logout = (ImageButton) findViewById(R.id.logout_main_menu);
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -64,7 +58,8 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         DocumentReference docRef = db.collection("cities").document();
         posts = new ArrayList<PostModel>();
         queryPosts();
-        //post();
+        BottomNavigationItemView post_btn = (BottomNavigationItemView) findViewById(R.id.add_post);
+        post(post_btn);
         navbarTest();
     }
 
@@ -99,26 +94,26 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                                         email,
                                         companyID);
                             }
-                            if (user.getUserType().equals("Employee")) {
-                                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
-                                FragmentContainerView fragmentContainerView = findViewById(R.id.fragmentContainerView_main_menu);
-                                FragmentContainerViewModel fragmentContainerViewModel = new FragmentContainerViewModel(fragmentContainerView);
-
-
-                                ft.replace(R.id.fragmentContainerView_bot_nav_main_menu, EmployeeBotNavFragment.newInstance(fragmentContainerViewModel));
-                                ft.commit();
-
-                                EmployeeBotNavFragment employeeBotNavFragment = new EmployeeBotNavFragment();
-
-                                MenuItem menuItem = employeeBotNavFragment.getGroup();
-
-
-                            } else if (user.getUserType().equals("Employer")) {
-                                FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
-                                ft1.replace(R.id.fragmentContainerView_bot_nav_main_menu, EmployerBotNavBarFragment.newInstance("lala", "jashan"));
-                                ft1.commit();
-                            }
+//                            if (user.getUserType().equals("Employee")) {
+//                                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//
+//                                FragmentContainerView fragmentContainerView = findViewById(R.id.fragmentContainerView_main_menu);
+//                                FragmentContainerViewModel fragmentContainerViewModel = new FragmentContainerViewModel(fragmentContainerView);
+//
+//
+//                                ft.replace(R.id.fragmentContainerView_bot_nav_main_menu, EmployeeBotNavFragment.newInstance(fragmentContainerViewModel));
+//                                ft.commit();
+//
+//                                EmployeeBotNavFragment employeeBotNavFragment = new EmployeeBotNavFragment();
+//
+//                                MenuItem menuItem = employeeBotNavFragment.getGroup();
+//
+//
+//                            } else if (user.getUserType().equals("Employer")) {
+//                                FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
+//                                ft1.replace(R.id.fragmentContainerView_bot_nav_main_menu, EmployerBotNavBarFragment.newInstance("lala", "jashan"));
+//                                ft1.commit();
+//                            }
                         }
                         else {
                             Log.d("TAG", "Error getting documents: ", task.getException());
@@ -159,7 +154,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
      */
     @Override
     public void onClick(View view) {
-        Intent loginActivity = new Intent(MainMenu.this, MainActivity.class);
+        Intent loginActivity = new Intent(EmployerMainMenu.this, MainActivity.class);
         switch (view.getId()){
             case R.id.logout_main_menu:
                 firebaseAuth.signOut();
@@ -168,6 +163,67 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                 startActivity(loginActivity);
                 return;
         }
+    }
+
+    public void post(BottomNavigationItemView post_btn){
+        post_btn.setOnClickListener(new View.OnClickListener() {
+            String input_text  = "";
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(EmployerMainMenu.this);
+                builder.setTitle("Make a post");
+                final EditText input = new EditText(EmployerMainMenu.this);
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+
+                builder.setPositiveButton("POST", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        input_text = input.getText().toString();
+                        db.collection("Users").whereEqualTo("email", firebaseUser.getEmail()).get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()){
+                                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                                                String companyID = documentSnapshot.getData().get("companyID").toString();
+                                                String posterName = documentSnapshot.getData().get("name").toString();
+                                                String senderID = documentSnapshot.getId();
+                                                long dateTime = System.currentTimeMillis();
+                                                PostModel postModel = new PostModel(companyID, posterName, senderID, dateTime, input_text);
+                                                db.collection("Posts").add(postModel).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                        if (task.isSuccessful()){
+                                                            Log.d("Tag", "Added post");
+
+
+                                                        }
+                                                        else {
+                                                            Log.d("Tag", "Failed to add post");
+                                                        }
+                                                    }
+                                                });
+                                            }
+
+
+
+
+                                        }
+                                    }
+                                });
+
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                builder.show();
+            }
+        });
     }
 
 }

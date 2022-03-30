@@ -1,11 +1,8 @@
 package com.bcit.myapplication;
 
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,15 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -69,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         email = emailTextView.getText().toString();
         password = passwordTextView.getText().toString();
 
-        Intent mainMenu = new Intent(this, MainMenu.class);
+        Intent mainMenu = new Intent(this, EmployerMainMenu.class);
 
         if(TextUtils.isEmpty(email)){
             emailTextView.setError("Please Enter the email!");

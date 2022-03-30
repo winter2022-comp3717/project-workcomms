@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -61,7 +62,11 @@ public class EmployeeBotNavFragment extends Fragment {
                 case R.id.commentPostFragment:
                     CommentPostFragment commentPostFragment = new CommentPostFragment();
                     FragmentManager commentFragmentManager = getChildFragmentManager();
-                    //commentFragmentManager.beginTransaction().replace(R.id.fragmentContainerView_bot_nav_main_menu, commentPostFragment).commit();
+                    FragmentTransaction fragmentTransaction = commentFragmentManager.beginTransaction();
+                    View view = getView();
+                    FragmentContainerView fragmentContainerView = view.findViewById(R.id.fragmentContainerView_main_menu);
+
+                    fragmentTransaction.replace(R.id.fragmentContainerView_main_menu, CommentPostFragment.class, null).commit();
                     return true;
             }
             return false;
