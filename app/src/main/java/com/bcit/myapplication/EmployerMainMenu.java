@@ -60,66 +60,12 @@ public class EmployerMainMenu extends AppCompatActivity implements View.OnClickL
         queryPosts();
         BottomNavigationItemView post_btn = (BottomNavigationItemView) findViewById(R.id.add_post);
         post(post_btn);
-        navbarTest();
     }
 
     private void queryPosts() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragmentContainerView_main_menu, PostRecyclerFragment.newInstance(posts));
         ft.commit();
-    }
-
-    /**
-     * Query from the user type information from database and go to the corresponding
-     * fragment with the right bottom navbar.
-     */
-    private void navbarTest() {
-        db.collection("Users")
-                .whereEqualTo("uid", firebaseUser.getUid())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot doc : task.getResult()) {
-                                String name = doc.getData().get("name").toString();
-                                String companyID = doc.getData().get("companyID").toString();
-                                String email = doc.getData().get("email").toString();
-                                String uid = doc.getData().get("uid").toString();
-                                String usertype = doc.getData().get("userType").toString();
-                                user = new User(
-                                        name,
-                                        usertype,
-                                        uid,
-                                        email,
-                                        companyID);
-                            }
-//                            if (user.getUserType().equals("Employee")) {
-//                                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//
-//                                FragmentContainerView fragmentContainerView = findViewById(R.id.fragmentContainerView_main_menu);
-//                                FragmentContainerViewModel fragmentContainerViewModel = new FragmentContainerViewModel(fragmentContainerView);
-//
-//
-//                                ft.replace(R.id.fragmentContainerView_bot_nav_main_menu, EmployeeBotNavFragment.newInstance(fragmentContainerViewModel));
-//                                ft.commit();
-//
-//                                EmployeeBotNavFragment employeeBotNavFragment = new EmployeeBotNavFragment();
-//
-//                                MenuItem menuItem = employeeBotNavFragment.getGroup();
-//
-//
-//                            } else if (user.getUserType().equals("Employer")) {
-//                                FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
-//                                ft1.replace(R.id.fragmentContainerView_bot_nav_main_menu, EmployerBotNavBarFragment.newInstance("lala", "jashan"));
-//                                ft1.commit();
-//                            }
-                        }
-                        else {
-                            Log.d("TAG", "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
     }
 
     /**
