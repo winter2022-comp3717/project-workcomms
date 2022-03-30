@@ -24,7 +24,7 @@ public class Home extends Application {
 
         if (firebaseUser != null) {
             db.collection("Users")
-                    .whereEqualTo("uid", firebaseUser.getUid())
+                    .whereEqualTo("email", firebaseUser.getEmail())
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override

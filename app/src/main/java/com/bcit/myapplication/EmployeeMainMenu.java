@@ -45,9 +45,8 @@ public class EmployeeMainMenu extends AppCompatActivity implements View.OnClickL
         TextView message = findViewById(R.id.label_name_employee);
         setUserTextView(db, message);
         posts = new ArrayList<>();
-        //queryPosts();
-/*        BottomNavigationItemView post_btn = (BottomNavigationItemView) findViewById(R.id.add_post);
-        post(post_btn);*/
+        queryPosts();
+
     }
 
     @Override
@@ -71,7 +70,7 @@ public class EmployeeMainMenu extends AppCompatActivity implements View.OnClickL
      */
     private void setUserTextView(FirebaseFirestore db, TextView message) {
         db.collection("Users")
-                .whereEqualTo("uid", firebaseUser.getUid())
+                .whereEqualTo("email", firebaseUser.getEmail())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

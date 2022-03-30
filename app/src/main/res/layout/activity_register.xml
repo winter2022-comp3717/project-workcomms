@@ -94,45 +94,6 @@
         android:textSize="16sp"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <TextView
-        android:id="@+id/textView_registration_register_As"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="@string/register_as"
-        android:textSize="22sp" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="74dp"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
-        <RadioGroup
-            android:id="@+id/radioGroup_register"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            <RadioButton
-                android:id="@+id/radioButton_employee"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="10dp"
-                android:text="@string/employee"
-                android:textSize="20sp" />
-
-            <RadioButton
-                android:id="@+id/radioButton_employer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="10dp"
-                android:text="@string/employer"
-                android:textSize="20sp" />
-        </RadioGroup>
-    </LinearLayout>
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

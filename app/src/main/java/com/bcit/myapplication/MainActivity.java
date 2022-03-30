@@ -12,10 +12,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -35,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        db = FirebaseFirestore.getInstance();
         login_btn = (Button) findViewById(R.id.button_login);
         register_banner = (TextView) findViewById(R.id.textView_register_banner);
         emailTextView = (EditText) findViewById(R.id.edit_text_email_login);
@@ -79,6 +85,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if(task.isSuccessful()){
                             startActivity(mainMenu);
                         } else {
+                            db.collection("Users")
+                                    .whereEqualTo("email", email)
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()){
+                                                for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                                                        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                                            @Override
+                                                            public void onSuccess(AuthResult authResult) {
+                                                                firebaseAuth.signInWithEmailAndPassword(email, password);
+                                                                startActivity(new Intent(MainActivity.this, EmployeeMainMenu.class));
+                                                            }
+                                                        });
+
+
+                                                }
+                                            }
+                                        }
+                                    });
                             return;
                         }
                     }

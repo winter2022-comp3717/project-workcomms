@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -48,13 +47,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         login_banner.setOnClickListener(this);
 
         spinnerSetup();
-    }
-
-    public String getUserType(RadioButton r1){
-        if(r1.isChecked()){
-            return "Employee";
-        }
-        return "Employer";
     }
 
     @Override
@@ -104,7 +96,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void registerUser(){
         EditText name = (EditText) findViewById(R.id.edit_text_name_registration);
         EditText password = (EditText) findViewById(R.id.edit_text_password_registration);
-        String userType = getUserType((RadioButton) findViewById(R.id.radioButton_employee));
+        String userType = "Employer";
         EditText email = (EditText) findViewById(R.id.edit_text_email_registration);
         String name_field = name.getText().toString();
         String password_field = password.getText().toString();
@@ -176,7 +168,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 //                                                            the document Id of the company
                                                             User user = new User(name_field, userType,
                                                                     firebaseAuth.getCurrentUser().getUid(), email_field,
-                                                                    task.getResult().getDocuments().get(0).getId());
+                                                                    task.getResult().getDocuments().get(0).getId(), null);
                                                             UsersDb.add(user)
                                                                     .addOnSuccessListener(documentReference -> {
                                                                         progressBar.setVisibility(View.GONE);

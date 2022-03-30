@@ -60,6 +60,8 @@ public class EmployerMainMenu extends AppCompatActivity implements View.OnClickL
         queryPosts();
         BottomNavigationItemView post_btn = (BottomNavigationItemView) findViewById(R.id.add_post);
         post(post_btn);
+        addEmployee();
+
     }
 
     private void queryPosts() {
@@ -171,6 +173,18 @@ public class EmployerMainMenu extends AppCompatActivity implements View.OnClickL
             }
         });
     }
+
+    public void addEmployee(){
+        BottomNavigationItemView addEmployee = (BottomNavigationItemView) findViewById(R.id.add_employee);
+        addEmployee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(EmployerMainMenu.this, RegisterEmployee.class));
+            }
+        });
+    }
+
+
 
 }
 

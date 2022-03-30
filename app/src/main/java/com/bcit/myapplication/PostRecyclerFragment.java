@@ -73,7 +73,6 @@ public class PostRecyclerFragment extends Fragment {
         adapter = new PostRecyclerAdapter(mParam1);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        //EventListenerOnPostsAdded();
         helper();
 
         super.onViewCreated(view, savedInstanceState);
@@ -81,7 +80,7 @@ public class PostRecyclerFragment extends Fragment {
 
     private void helper(){
         db.collection("Users")
-                .whereEqualTo("uid", firebaseUser.getUid())
+                .whereEqualTo("email", firebaseUser.getEmail())
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -125,9 +124,7 @@ public class PostRecyclerFragment extends Fragment {
                                         senderId,
                                         dateTime, message);
                                 mParam1.add(0, newPost);
-                                //adapter.notifyDataSetChanged();
                             }
-                            //adapter.notifyDataSetChanged();
                         }
                         adapter.notifyDataSetChanged();
                     }
