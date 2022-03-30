@@ -59,7 +59,9 @@ public class EmployerMainMenu extends AppCompatActivity implements View.OnClickL
         posts = new ArrayList<PostModel>();
         queryPosts();
         BottomNavigationItemView post_btn = (BottomNavigationItemView) findViewById(R.id.add_post);
+        BottomNavigationItemView addGroupBtn = (BottomNavigationItemView) findViewById(R.id.create_group);
         post(post_btn);
+        addGroup();
         addEmployee();
 
     }
@@ -161,6 +163,50 @@ public class EmployerMainMenu extends AppCompatActivity implements View.OnClickL
                                     }
                                 });
 
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                builder.show();
+            }
+        });
+    }
+
+    public void addGroup(){
+        BottomNavigationItemView bottomNavigationItemView = (BottomNavigationItemView) findViewById(R.id.create_group);
+        bottomNavigationItemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(EmployerMainMenu.this);
+                builder.setTitle("Create a group");
+                final EditText input = new EditText(EmployerMainMenu.this);
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+                builder.setPositiveButton("CREATE GROUP", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        db.collection("Users")
+                                .whereEqualTo("email", firebaseUser.getEmail())
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()){
+                                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                                                String companyID = documentSnapshot.getData().get("companyID").toString();
+                                                Group group = new Group(input.getText().toString(), null);
+                                                db.collection("Companies")
+                                                        .document(companyID)
+                                                        .collection("Groups")
+                                                        .add(group);
+                                            }
+                                        }
+                                    }
+                                });
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

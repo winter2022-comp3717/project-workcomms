@@ -168,7 +168,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 //                                                            the document Id of the company
                                                             User user = new User(name_field, userType,
                                                                     firebaseAuth.getCurrentUser().getUid(), email_field,
-                                                                    task.getResult().getDocuments().get(0).getId(), null);
+                                                                    task.getResult().getDocuments().get(0).getId());
                                                             UsersDb.add(user)
                                                                     .addOnSuccessListener(documentReference -> {
                                                                         progressBar.setVisibility(View.GONE);

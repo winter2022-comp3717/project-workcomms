@@ -11,7 +11,6 @@ public class User implements Serializable {
     private final String userType;
     private final String email;
     private final String CompanyID;
-    private final String designation;
 
     /**
      * Creates the constructor of the user class.
@@ -20,15 +19,13 @@ public class User implements Serializable {
      * @param UID UID of the user
      * @param email user's email
      * @param companyID user's company ID
-     * @param designation
      */
-    public User(String name, String type, String UID, String email, String companyID, String designation) {
+    public User(String name, String type, String UID, String email, String companyID ) {
         this.name = name;
         this.userType = type;
         this.UID = UID;
         this.email = email;
         CompanyID = companyID;
-        this.designation = designation;
     }
 
     /**
@@ -76,12 +73,4 @@ public class User implements Serializable {
         return CompanyID;
     }
 
-    /**
-     * Returns the designation of the employee -> none if employer
-     *
-     * @return the designation
-     */
-    public String getDesignation() {
-        return designation;
-    }
 }
