@@ -1,6 +1,7 @@
 package com.bcit.myapplication;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
@@ -19,12 +20,16 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -59,7 +64,6 @@ public class EmployerMainMenu extends AppCompatActivity implements View.OnClickL
         posts = new ArrayList<PostModel>();
         queryPosts();
         BottomNavigationItemView post_btn = (BottomNavigationItemView) findViewById(R.id.add_post);
-        BottomNavigationItemView addGroupBtn = (BottomNavigationItemView) findViewById(R.id.create_group);
         post(post_btn);
         addGroup();
         addEmployee();
@@ -222,17 +226,60 @@ public class EmployerMainMenu extends AppCompatActivity implements View.OnClickL
 
     public void addEmployee(){
         BottomNavigationItemView addEmployee = (BottomNavigationItemView) findViewById(R.id.add_employee);
-        addEmployee.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(EmployerMainMenu.this, RegisterEmployee.class));
-            }
-        });
+        db.collection("Users")
+                .whereEqualTo("email", firebaseUser.getEmail())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                String companyID = documentSnapshot.getData().get("companyID").toString();
+                                db.collection("Companies")
+                                        .document(companyID)
+                                        .collection("Groups")
+                                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                                                if (value.isEmpty()){
+                                                    addEmployee.setOnClickListener(new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View view) {
+                                                            AlertDialog alertDialog = new AlertDialog.Builder(EmployerMainMenu.this).create();
+                                                            alertDialog.setTitle("Alert");
+                                                            alertDialog.setMessage("Create a group first in order to add an employee");
+                                                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                                                    new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                                                            dialogInterface.dismiss();
+                                                                        }
+                                                                    });
+                                                            alertDialog.show();
+                                                        }
+                                                    });
+                                                } else {
+                                                    addEmployee.setOnClickListener(new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View view) {
+                                                            startActivity(new Intent(EmployerMainMenu.this, RegisterEmployee.class));
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        });
+                            }
+                        }
+                    }
+                });
+
     }
 
 
 
 }
+
+
 
 
 
