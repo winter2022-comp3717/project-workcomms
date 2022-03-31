@@ -34,7 +34,7 @@
         android:id="@+id/fragmentContainerView_main_menu"
         android:layout_width="match_parent"
         android:layout_height="555dp"
-        android:background="#E0F7FA" />
+        android:background="@color/browser_actions_bg_grey" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView_employer_main_menu"
