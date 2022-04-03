@@ -40,6 +40,7 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:clipToPadding="false"
         app:itemBackground="@color/dark_blue"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"

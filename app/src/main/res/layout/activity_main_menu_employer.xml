@@ -45,5 +45,6 @@
         app:itemBackground="@color/dark_blue"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
+        android:clipToPadding="false"
         app:menu="@menu/bottom_nav_menu_employer"/>
 </LinearLayout>
