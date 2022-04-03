@@ -83,6 +83,15 @@ public class RegisterCompany extends AppCompatActivity {
         });
     }
 
+    /**
+     * Helper function used to add a company to the Collection doc of Companies in firestore.
+     *
+     * @param nameOfTheCompany String representation of name
+     * @param licenceNumber String representation of licence #
+     * @param location String representation of location
+     * @param companyDB CollectionReference of Company
+     * @param registerOptionsActivity Intent to be sent to next activity
+     */
     private void createCompanyDoc(String nameOfTheCompany,
                                   String licenceNumber,
                                   String location,
@@ -107,6 +116,16 @@ public class RegisterCompany extends AppCompatActivity {
         });
     }
 
+    /**
+     * Validate three EditText fields from the registration of companies.
+     *
+     * This function returns true if the name, license# and location EditText fields are not empty
+     *
+     * @param first EditText
+     * @param second EditText
+     * @param third EditText
+     * @return a boolean
+     */
     private boolean validateInput(EditText first, EditText second, EditText third) {
         String firstStr = first.getText().toString();
         String secondStr = second.getText().toString();
@@ -130,6 +149,14 @@ public class RegisterCompany extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Create an Alert Dialog for successful registration of a company.
+     *
+     * This alert will start a new activity for registration options.
+     *
+     * @param registerOptionsActivity Intent
+     * @return Alert Dialog
+     */
     private AlertDialog successfulRegisterAlert(Intent registerOptionsActivity) {
         AlertDialog alertDialog = new AlertDialog.Builder(RegisterCompany.this).create();
         alertDialog.setTitle("Alert");
@@ -145,6 +172,13 @@ public class RegisterCompany extends AppCompatActivity {
         return alertDialog;
     }
 
+    /**
+     * Create an Alert Dialog for registering a company.
+     *
+     * This should  be displayed when a company is not unique in a collection from firestore
+     *
+     * @return AlertDialog
+     */
     private AlertDialog companyNotUniqueAlert() {
         AlertDialog alertAlreadyRegistered = new AlertDialog.Builder(RegisterCompany.this).create();
         alertAlreadyRegistered.setTitle("Alert");
