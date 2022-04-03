@@ -12,12 +12,12 @@
         android:id="@+id/textView_registration_heading2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="30dp"
+        android:layout_margin="47dp"
         android:gravity="center"
         android:text="@string/log_in"
-        android:textColor="#004D40"
-        android:textSize="34sp" />
+        android:textColor="@color/dark_blue"
+        android:textStyle="bold"
+        android:textSize="32sp" />
 
     <TextView
         android:id="@+id/textView_registration_email2"
@@ -38,6 +38,7 @@
         android:ems="10"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
+        android:backgroundTint="@color/blue"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
@@ -60,6 +61,7 @@
         android:minHeight="48dp"
         android:password="true"
         android:textAlignment="center"
+        android:backgroundTint="@color/blue"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
@@ -68,6 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/login"
+        android:layout_margin="40dp"
         style="@style/Widget.AppCompat.Button.Colored" />
 
     <TextView
@@ -77,6 +80,6 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:text="Not a User yet? Click to register"
-        android:textSize="20sp" />
+        android:textSize="16sp" />
 
 </LinearLayout>
