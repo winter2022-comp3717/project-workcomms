@@ -1,14 +1,18 @@
 package com.bcit.myapplication;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -45,7 +49,18 @@ public class EmployeeMainMenu extends AppCompatActivity implements View.OnClickL
         TextView message = findViewById(R.id.label_name_employee);
         setUserTextView(db, message);
         posts = new ArrayList<>();
-        queryPosts();
+        BottomNavigationItemView chatBtn = (BottomNavigationItemView) findViewById(R.id.commentPostFragment);
+        BottomNavigationItemView notices = (BottomNavigationItemView) findViewById(R.id.groupFragment);
+        BottomNavigationItemView chatGroup = (BottomNavigationItemView) findViewById(R.id.groupPostFragment);
+        queryPosts(notices);
+        queryGroupChat(chatGroup);
+        chatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chatGroup.performClick();
+                post();
+            }
+        });
 
     }
 
@@ -97,6 +112,83 @@ public class EmployeeMainMenu extends AppCompatActivity implements View.OnClickL
                 ft.commit();
             }
         });
+
+    }
+
+    public void queryGroupChat(BottomNavigationItemView bottomNavigationItemView) {
+        bottomNavigationItemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomNavigationItemView.requestFocus();
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.post_fragment_container_employee, GroupChatFragment.newInstance(posts));
+                ft.commit();
+            }
+        });
+
+    }
+
+
+
+    public void post(){
+
+        final String[] input_text = {""};
+                AlertDialog.Builder builder = new AlertDialog.Builder(EmployeeMainMenu.this);
+                builder.setTitle("Make a post");
+                final EditText input = new EditText(EmployeeMainMenu.this);
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+
+                builder.setPositiveButton("POST", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        input_text[0] = input.getText().toString();
+                        db.collection("Users").whereEqualTo("email", firebaseUser.getEmail()).get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()){
+                                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                                                String companyID = documentSnapshot.getData().get("companyID").toString();
+                                                String groupID = documentSnapshot.getData().get("groupID").toString();
+                                                String posterName = documentSnapshot.getData().get("name").toString();
+                                                String senderID = documentSnapshot.getId();
+                                                long dateTime = System.currentTimeMillis();
+                                                PostModel postModel = new PostModel(groupID, posterName, senderID, dateTime, input_text[0]);
+                                                db.collection("Companies")
+                                                        .document(companyID)
+                                                        .collection("Posts")
+                                                        .add(postModel).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                        if (task.isSuccessful()){
+                                                            Log.d("Tag", "Added post");
+
+
+                                                        }
+                                                        else {
+                                                            Log.d("Tag", "Failed to add post");
+                                                        }
+                                                    }
+                                                });
+                                            }
+
+
+
+
+                                        }
+                                    }
+                                });
+
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                builder.show();
 
     }
 }
