@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         login_btn.setOnClickListener(this);
         register_banner.setOnClickListener(this);
+        login_btn.setBackgroundColor(getResources().getColor(R.color.blue));
     }
 
     @Override

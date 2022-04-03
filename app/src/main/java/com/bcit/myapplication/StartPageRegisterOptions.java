@@ -27,6 +27,7 @@ public class StartPageRegisterOptions extends AppCompatActivity {
         root.setBackgroundResource(R.drawable.main_background);
         goToRegisterActivity();
         goToRegisterCompanyActivity();
+        goToMainActivity();
     }
 
     /**
@@ -47,6 +48,10 @@ public class StartPageRegisterOptions extends AppCompatActivity {
         Button registerCompany = (Button) findViewById(R.id.register_company_btn);
         registerCompany.setBackgroundColor(getResources().getColor(R.color.orange));
         registerCompany.setOnClickListener(view -> startActivity(registerCompanyActivity));
+    }
 
+    public void goToMainActivity() {
+        Button login = (Button) findViewById(R.id.button_login_landing);
+        login.setBackgroundColor(getResources().getColor(R.color.blue));
     }
 }
