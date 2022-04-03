@@ -11,8 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="47dp"
-        android:layout_marginBottom="162dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginBottom="161dp"
         android:text="@string/welcome_to_workcomms"
         android:textColor="@color/dark_blue"
         android:textSize="32sp"
@@ -24,12 +24,12 @@
     <Button
         android:id="@+id/register_company_btn"
         android:layout_width="0dp"
-        android:layout_height="80dp"
+        android:layout_height="0dp"
         android:layout_marginStart="54dp"
         android:layout_marginEnd="54dp"
-        android:layout_marginBottom="103dp"
+        android:layout_marginBottom="25dp"
         android:text="@string/register_a_workplace"
-        app:layout_constraintBottom_toTopOf="@+id/register_user_btn"
+        app:layout_constraintBottom_toTopOf="@+id/button_login_landing"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -37,13 +37,24 @@
     <Button
         android:id="@+id/register_user_btn"
         android:layout_width="0dp"
-        android:layout_height="80dp"
+        android:layout_height="0dp"
         android:layout_marginStart="54dp"
         android:layout_marginEnd="54dp"
-        android:layout_marginBottom="148dp"
+        android:layout_marginBottom="147dp"
         android:text="@string/register_employer_account"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_login_landing" />
+
+    <Button
+        android:id="@+id/button_login_landing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginBottom="30dp"
+        android:text="LOGIN"
+        app:layout_constraintBottom_toTopOf="@+id/register_user_btn"
+        app:layout_constraintStart_toStartOf="@+id/register_company_btn"
         app:layout_constraintTop_toBottomOf="@+id/register_company_btn" />
 </androidx.constraintlayout.widget.ConstraintLayout>
