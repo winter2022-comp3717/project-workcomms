@@ -58,6 +58,7 @@ public class StartPageRegisterOptions extends AppCompatActivity {
     public void goToLoginActivity() {
         Intent loginIntent = new Intent(this, MainActivity.class);
         Button loginBtn = (Button) findViewById(R.id.button_login_landing);
+        loginBtn.setBackgroundColor(getResources().getColor(R.color.blue));
         loginBtn.setOnClickListener(
                 view -> startActivity(loginIntent)
         );
