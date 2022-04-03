@@ -17,8 +17,10 @@
             android:layout_width="357dp"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:paddingLeft="50dp"
             android:text="@string/hello_user"
-            android:textSize="20sp" />
+            android:textStyle="bold"
+            android:textSize="28sp" />
 
         <ImageButton
             android:id="@+id/logout_main_menu"
@@ -26,19 +28,22 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/logout"
             android:padding="15dp"
+            app:tint="@color/dark_blue"
             app:srcCompat="@android:drawable/ic_lock_power_off"
             tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView_main_menu"
+        android:name="com.bcit.myapplication.PostRecyclerFragment"
         android:layout_width="match_parent"
-        android:layout_height="555dp"
-        android:background="@color/browser_actions_bg_grey" />
+        android:layout_height="610dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView_employer_main_menu"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="50dp"
+        app:itemBackground="@color/dark_blue"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
         app:menu="@menu/bottom_nav_menu_employer"/>
 </LinearLayout>

@@ -53,7 +53,14 @@ public class EmployerMainMenu extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu_employer);
+
+        View someView = findViewById(R.id.fragmentContainerView_main_menu);
+        View root = someView.getRootView();
+        root.setBackgroundResource(R.color.orange);
+
         logout = (ImageButton) findViewById(R.id.logout_main_menu);
+        logout.setBackgroundResource(R.color.orange);
+
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         logout.setOnClickListener(this);
