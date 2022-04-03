@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -70,7 +71,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         email = emailTextView.getText().toString();
         password = passwordTextView.getText().toString();
 
-        Intent mainMenu = new Intent(this, EmployerMainMenu.class);
+        Intent employerIntent = new Intent(this, EmployerMainMenu.class);
+        Intent employeeIntent = new Intent(this, EmployeeMainMenu.class);
 
         if(TextUtils.isEmpty(email)){
             emailTextView.setError("Please Enter the email!");
@@ -85,7 +87,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            startActivity(mainMenu);
+                            db.collection("Users")
+                                    .whereEqualTo("email", email)
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if(task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot snapshot: task.getResult()) {
+                                                    String userType = snapshot.get("userType").toString();
+                                                    if (userType.equals("Employee")) {
+                                                        startActivity(employeeIntent);
+                                                    } else if (userType.equals("Employer")) {
+                                                        startActivity(employerIntent);
+                                                    } else {
+                                                        Log.e("ERR", "Error with user type");
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    });
                         } else {
                             db.collection("Users")
                                     .whereEqualTo("email", email)

@@ -58,6 +58,8 @@ public class EmployeeMainMenu extends AppCompatActivity implements View.OnClickL
         BottomNavigationItemView chatBtn = (BottomNavigationItemView) findViewById(R.id.addToGroupChat);
         BottomNavigationItemView notices = (BottomNavigationItemView) findViewById(R.id.notice);
         BottomNavigationItemView chatGroup = (BottomNavigationItemView) findViewById(R.id.groupChat);
+
+        queryNotices();
         queryPosts(notices);
         queryGroupChat(chatGroup);
         chatBtn.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +110,12 @@ public class EmployeeMainMenu extends AppCompatActivity implements View.OnClickL
                 });
     }
 
+    /**
+     * Attach a listener to the navigation bar item view to begin fragment transaction to
+     * Employer Posts/Announcements.
+     *
+     * @param navigationItemView BottomNavigationItemView
+     */
     public void queryPosts(BottomNavigationItemView navigationItemView) {
         navigationItemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +127,15 @@ public class EmployeeMainMenu extends AppCompatActivity implements View.OnClickL
             }
         });
 
+    }
+
+    /**
+     * Setups the startup fragment to display Notices/Announcements from Employers
+     */
+    public void queryNotices() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.post_fragment_container_employee, PostRecyclerFragment.newInstance(posts));
+        ft.commit();
     }
 
     public void queryGroupChat(BottomNavigationItemView bottomNavigationItemView) {
