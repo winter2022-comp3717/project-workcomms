@@ -34,6 +34,6 @@
     <string name="choose_grp">Choose Group</string>
     <string name="name">Name</string>
     <string name="welcome_to_workcomms">Welcome to WorkComms</string>
+    <string name="register_employer_account">REGISTER EMPLOYER ACCOUNT</string>
     <string name="register_a_workplace">Register a WorkPlace</string>
-    <string name="register_as_a_user_in_an_existing_workplace">Register as a user in an Existing Workplace</string>
 </resources>
