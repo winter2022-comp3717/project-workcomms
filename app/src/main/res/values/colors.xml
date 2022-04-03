@@ -2,6 +2,7 @@
 <resources>
     <color name="blue">#219EBC</color>
     <color name="orange">#FFB703</color>
+    <color name="light_orange">#CDFDE3A0</color>
     <color name="ocean">#009688</color>
     <color name="dark_blue">#023047</color>
     <color name="light_blue">#8ECAE6</color>

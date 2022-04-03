@@ -42,10 +42,13 @@ public class RegisterEmployee extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_employee);
+
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
         Button registerEmployee = (Button) findViewById(R.id.register_employee_btn);
+        registerEmployee.setBackgroundColor(getResources().getColor(R.color.orange));
+
         registerEmployee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,7 +165,8 @@ public class RegisterEmployee extends AppCompatActivity {
                                                 groupName.add(String.valueOf(documentSnapshot1.get("name")));
                                             }
                                             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(RegisterEmployee.this,
-                                                    androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, groupName);
+                                                    R.layout.my_dropdown_group, groupName);
+                                            arrayAdapter.setDropDownViewResource(R.layout.group_spinner_list);
                                             spinner.setAdapter(arrayAdapter);
                                         }
                                     }
