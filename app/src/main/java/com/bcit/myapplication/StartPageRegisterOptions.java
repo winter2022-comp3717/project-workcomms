@@ -27,6 +27,7 @@ public class StartPageRegisterOptions extends AppCompatActivity {
         root.setBackgroundResource(R.drawable.main_background);
         goToRegisterActivity();
         goToRegisterCompanyActivity();
+        goToLoginActivity();
     }
 
     /**
@@ -48,5 +49,17 @@ public class StartPageRegisterOptions extends AppCompatActivity {
         registerCompany.setBackgroundColor(getResources().getColor(R.color.orange));
         registerCompany.setOnClickListener(view -> startActivity(registerCompanyActivity));
 
+    }
+
+    /**
+     * Go to the login in activity when login button is clicked.
+     *
+     */
+    public void goToLoginActivity() {
+        Intent loginIntent = new Intent(this, MainActivity.class);
+        Button loginBtn = (Button) findViewById(R.id.button_login_landing);
+        loginBtn.setOnClickListener(
+                view -> startActivity(loginIntent)
+        );
     }
 }
