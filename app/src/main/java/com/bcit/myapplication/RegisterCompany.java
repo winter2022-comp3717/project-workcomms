@@ -56,47 +56,93 @@ public class RegisterCompany extends AppCompatActivity {
         registerCompany.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                companyDB.whereEqualTo("name", nameOfTheCompany.getText().toString())
-                        .whereEqualTo("location", location.getText().toString())
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (!task.getResult().isEmpty()) {
-                                    AlertDialog alertNotUnique = companyNotUniqueAlert();
-                                    alertNotUnique.show();
-                                } else {
-                                    Company company = new Company(nameOfTheCompany.getText().toString(),
-                                            licenceNumber.getText().toString(), location.getText().toString());
-                                    companyDB.add(company).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<DocumentReference> task) {
-                                            if (task.isSuccessful()) {
-                                                Log.d("TAG", "Success");
-                                                AlertDialog alertDialog = new AlertDialog.Builder(RegisterCompany.this).create();
-                                                alertDialog.setTitle("Alert");
-                                                alertDialog.setMessage("Company Registered");
-                                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                                                        new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                                dialogInterface.dismiss();
-                                                                startActivity(registerOptionsActivity);
-                                                            }
-                                                        });
-                                                alertDialog.show();
-
-                                            } else {
-                                                Log.d("TAG", "Success");
-                                            }
-                                        }
-                                    });
+                boolean validateInput = validateInput(nameOfTheCompany, licenceNumber, location);
+                if (validateInput) {
+                    companyDB.whereEqualTo("name", nameOfTheCompany.getText().toString())
+                            .whereEqualTo("location", location.getText().toString())
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (!task.getResult().isEmpty()) {
+                                        AlertDialog alertNotUnique = companyNotUniqueAlert();
+                                        alertNotUnique.show();
+                                    } else {
+                                        createCompanyDoc(
+                                                nameOfTheCompany.getText().toString(),
+                                                licenceNumber.getText().toString(),
+                                                location.getText().toString(),
+                                                companyDB,
+                                                registerOptionsActivity
+                                        );
+                                    }
                                 }
-                            }
-                        });
+                            });
+                }
             }
         });
+    }
+
+    private void createCompanyDoc(String nameOfTheCompany,
+                                  String licenceNumber,
+                                  String location,
+                                  CollectionReference companyDB,
+                                  Intent registerOptionsActivity) {
+
+        Company company = new Company(nameOfTheCompany, licenceNumber, location);
+        companyDB.add(company).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentReference> task) {
+                if (task.isSuccessful()) {
+                    Log.d("TAG", "Success");
+                    AlertDialog alertDialog = successfulRegisterAlert(
+                            registerOptionsActivity
+                    );
+                    alertDialog.show();
+
+                } else {
+                    Log.d("TAG", "Success");
+                }
+            }
+        });
+    }
+
+    private boolean validateInput(EditText first, EditText second, EditText third) {
+        String firstStr = first.getText().toString();
+        String secondStr = second.getText().toString();
+        String thirdStr = third.getText().toString();
+
+        AlertDialog alert = new AlertDialog.Builder(RegisterCompany.this).create();
+        alert.setTitle("Alert");
+        alert.setMessage("Cannot have empty fields");
+        alert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+        if (firstStr.equals("") || secondStr.equals("") || thirdStr.equals("")) {
+            alert.show();
+            return false;
+        }
+        return true;
+    }
+
+    private AlertDialog successfulRegisterAlert(Intent registerOptionsActivity) {
+        AlertDialog alertDialog = new AlertDialog.Builder(RegisterCompany.this).create();
+        alertDialog.setTitle("Alert");
+        alertDialog.setMessage("Company Registered");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        startActivity(registerOptionsActivity);
+                    }
+                });
+        return alertDialog;
     }
 
     private AlertDialog companyNotUniqueAlert() {
