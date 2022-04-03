@@ -83,8 +83,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 }
 
                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                        RegisterActivity.this, android.R.layout.simple_spinner_item,
+                        RegisterActivity.this, R.layout.my_dropdown_item,
                         combinedList);
+                arrayAdapter.setDropDownViewResource(R.layout.item_spinner_list);
                 spinner.setAdapter(arrayAdapter);
 
             } else {

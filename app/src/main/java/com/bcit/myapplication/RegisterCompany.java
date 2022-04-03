@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,7 +38,6 @@ public class RegisterCompany extends AppCompatActivity {
         setContentView(R.layout.activity_register_company);
         db = FirebaseFirestore.getInstance();
         registerCompany();
-
     }
 
     /**
@@ -48,6 +48,8 @@ public class RegisterCompany extends AppCompatActivity {
         EditText nameOfTheCompany = (EditText) findViewById(R.id.editText_company_name);
         EditText licenceNumber = (EditText) findViewById(R.id.editText_license);
         EditText location = (EditText) findViewById(R.id.editText_location);
+
+        registerCompany.setBackgroundColor(getResources().getColor(R.color.orange));
 
         Intent registerOptionsActivity = new Intent(this, StartPageRegisterOptions.class);
 
