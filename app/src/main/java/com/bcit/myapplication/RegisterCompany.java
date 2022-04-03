@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 /**
  * Creates the RegisterCompany Activity.
@@ -55,33 +56,60 @@ public class RegisterCompany extends AppCompatActivity {
         registerCompany.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Company company = new Company(nameOfTheCompany.getText().toString(),
-                        licenceNumber.getText().toString(), location.getText().toString());
-                companyDB.add(company).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                        if (task.isSuccessful()) {
-                            Log.d("TAG", "Success");
-                            AlertDialog alertDialog = new AlertDialog.Builder(RegisterCompany.this).create();
-                            alertDialog.setTitle("Alert");
-                            alertDialog.setMessage("Company Registered");
-                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                                    new DialogInterface.OnClickListener() {
+
+                companyDB.whereEqualTo("name", nameOfTheCompany.getText().toString())
+                        .whereEqualTo("location", location.getText().toString())
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (!task.getResult().isEmpty()) {
+                                    AlertDialog alertNotUnique = companyNotUniqueAlert();
+                                    alertNotUnique.show();
+                                } else {
+                                    Company company = new Company(nameOfTheCompany.getText().toString(),
+                                            licenceNumber.getText().toString(), location.getText().toString());
+                                    companyDB.add(company).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                         @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            dialogInterface.dismiss();
-                                            startActivity(registerOptionsActivity);
+                                        public void onComplete(@NonNull Task<DocumentReference> task) {
+                                            if (task.isSuccessful()) {
+                                                Log.d("TAG", "Success");
+                                                AlertDialog alertDialog = new AlertDialog.Builder(RegisterCompany.this).create();
+                                                alertDialog.setTitle("Alert");
+                                                alertDialog.setMessage("Company Registered");
+                                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                                        new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                                dialogInterface.dismiss();
+                                                                startActivity(registerOptionsActivity);
+                                                            }
+                                                        });
+                                                alertDialog.show();
+
+                                            } else {
+                                                Log.d("TAG", "Success");
+                                            }
                                         }
                                     });
-                            alertDialog.show();
-
-                        } else {
-                            Log.d("TAG", "Success");
-                        }
-                    }
-                });
-
+                                }
+                            }
+                        });
             }
         });
+    }
+
+    private AlertDialog companyNotUniqueAlert() {
+        AlertDialog alertAlreadyRegistered = new AlertDialog.Builder(RegisterCompany.this).create();
+        alertAlreadyRegistered.setTitle("Alert");
+        alertAlreadyRegistered.setMessage("Company already exists");
+        alertAlreadyRegistered.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        return alertAlreadyRegistered;
     }
 }
