@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if(TextUtils.isEmpty(password)){
             passwordTextView.setError("Please enter the password!");
+            return;
         }
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -100,8 +101,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                                 startActivity(new Intent(MainActivity.this, EmployeeMainMenu.class));
                                                             }
                                                         });
-
-
                                                 }
                                             }
                                         }

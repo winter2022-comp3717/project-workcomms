@@ -61,7 +61,6 @@ public class EmployeeMainMenu extends AppCompatActivity implements View.OnClickL
                 post();
             }
         });
-
     }
 
     @Override
@@ -73,6 +72,7 @@ public class EmployeeMainMenu extends AppCompatActivity implements View.OnClickL
                 loginActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 loginActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(loginActivity);
+                posts.clear();
                 return;
         }
     }
@@ -125,10 +125,7 @@ public class EmployeeMainMenu extends AppCompatActivity implements View.OnClickL
                 ft.commit();
             }
         });
-
     }
-
-
 
     public void post(){
 
@@ -163,8 +160,6 @@ public class EmployeeMainMenu extends AppCompatActivity implements View.OnClickL
                                                     public void onComplete(@NonNull Task<DocumentReference> task) {
                                                         if (task.isSuccessful()){
                                                             Log.d("Tag", "Added post");
-
-
                                                         }
                                                         else {
                                                             Log.d("Tag", "Failed to add post");
@@ -172,14 +167,9 @@ public class EmployeeMainMenu extends AppCompatActivity implements View.OnClickL
                                                     }
                                                 });
                                             }
-
-
-
-
                                         }
                                     }
                                 });
-
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -189,6 +179,5 @@ public class EmployeeMainMenu extends AppCompatActivity implements View.OnClickL
                     }
                 });
                 builder.show();
-
     }
 }

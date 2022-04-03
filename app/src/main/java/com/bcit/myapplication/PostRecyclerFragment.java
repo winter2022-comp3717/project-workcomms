@@ -90,15 +90,10 @@ public class PostRecyclerFragment extends Fragment {
                     }
                 }
             }
-
         });
-
     }
 
-
     private void EventListenerOnPostsAdded(String companyID) {
-
-
         db.collection("Posts")
                 .whereEqualTo("companyID", companyID)
                 .orderBy("dateTime", Query.Direction.ASCENDING)
@@ -109,7 +104,6 @@ public class PostRecyclerFragment extends Fragment {
                             Log.e("Firestore error", error.getMessage());
                             return;
                         }
-
                         for (DocumentChange dc : value.getDocumentChanges()) {
                             if (dc.getType() == DocumentChange.Type.ADDED) {
                                 QueryDocumentSnapshot snapshot = dc.getDocument();
@@ -128,11 +122,6 @@ public class PostRecyclerFragment extends Fragment {
                         }
                         adapter.notifyDataSetChanged();
                     }
-
                 });
-
-
-
-
     }
 }

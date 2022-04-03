@@ -1,7 +1,9 @@
 package com.bcit.myapplication;
 
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,10 +22,11 @@ public class StartPageRegisterOptions extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_page_register_options);
+        View someView = findViewById(R.id.register_company_btn);
+        View root = someView.getRootView();
+        root.setBackgroundResource(R.drawable.main_background);
         goToRegisterActivity();
         goToRegisterCompanyActivity();
-
-
     }
 
     /**
@@ -32,6 +35,7 @@ public class StartPageRegisterOptions extends AppCompatActivity {
     public void goToRegisterActivity(){
         Intent registerActivity = new Intent(this, RegisterActivity.class);
         Button registerUser = (Button) findViewById(R.id.register_user_btn);
+        registerUser.setBackgroundColor(getResources().getColor(R.color.dark_orange));
         registerUser.setOnClickListener(view -> startActivity(registerActivity));
     }
 
@@ -41,6 +45,7 @@ public class StartPageRegisterOptions extends AppCompatActivity {
     public void goToRegisterCompanyActivity(){
         Intent registerCompanyActivity = new Intent(this, RegisterCompany.class);
         Button registerCompany = (Button) findViewById(R.id.register_company_btn);
+        registerCompany.setBackgroundColor(getResources().getColor(R.color.orange));
         registerCompany.setOnClickListener(view -> startActivity(registerCompanyActivity));
 
     }

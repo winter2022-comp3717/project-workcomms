@@ -150,8 +150,6 @@ public class EmployerMainMenu extends AppCompatActivity implements View.OnClickL
                                                     public void onComplete(@NonNull Task<DocumentReference> task) {
                                                         if (task.isSuccessful()){
                                                             Log.d("Tag", "Added post");
-
-
                                                         }
                                                         else {
                                                             Log.d("Tag", "Failed to add post");
@@ -159,14 +157,9 @@ public class EmployerMainMenu extends AppCompatActivity implements View.OnClickL
                                                     }
                                                 });
                                             }
-
-
-
-
                                         }
                                     }
                                 });
-
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

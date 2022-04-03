@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="blue">#219EBC</color>
+    <color name="orange">#FFB703</color>
+    <color name="ocean">#009688</color>
+    <color name="dark_blue">#023047</color>
+    <color name="light_blue">#8ECAE6</color>
+    <color name="dark_orange">#FB8500</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
