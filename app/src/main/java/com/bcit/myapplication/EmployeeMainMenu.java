@@ -41,7 +41,13 @@ public class EmployeeMainMenu extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_main_menu);
+
+        View someView = findViewById(R.id.label_name_employee);
+        View root = someView.getRootView();
+        root.setBackgroundResource(R.color.light_blue);
+
         logout = (ImageButton) findViewById(R.id.logout_btn_employee);
+        logout.setBackgroundResource(R.color.light_blue);
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         logout.setOnClickListener(this);
@@ -49,9 +55,9 @@ public class EmployeeMainMenu extends AppCompatActivity implements View.OnClickL
         TextView message = findViewById(R.id.label_name_employee);
         setUserTextView(db, message);
         posts = new ArrayList<>();
-        BottomNavigationItemView chatBtn = (BottomNavigationItemView) findViewById(R.id.commentPostFragment);
-        BottomNavigationItemView notices = (BottomNavigationItemView) findViewById(R.id.groupFragment);
-        BottomNavigationItemView chatGroup = (BottomNavigationItemView) findViewById(R.id.groupPostFragment);
+        BottomNavigationItemView chatBtn = (BottomNavigationItemView) findViewById(R.id.addToGroupChat);
+        BottomNavigationItemView notices = (BottomNavigationItemView) findViewById(R.id.notice);
+        BottomNavigationItemView chatGroup = (BottomNavigationItemView) findViewById(R.id.groupChat);
         queryPosts(notices);
         queryGroupChat(chatGroup);
         chatBtn.setOnClickListener(new View.OnClickListener() {
@@ -130,13 +136,16 @@ public class EmployeeMainMenu extends AppCompatActivity implements View.OnClickL
     public void post(){
 
         final String[] input_text = {""};
-                AlertDialog.Builder builder = new AlertDialog.Builder(EmployeeMainMenu.this);
-                builder.setTitle("Make a post");
+                AlertDialog.Builder builder = new AlertDialog.Builder(EmployeeMainMenu.this, R.style.AlertDialogStyle);
+                builder.setTitle("Add a chat");
+
+
                 final EditText input = new EditText(EmployeeMainMenu.this);
                 input.setInputType(InputType.TYPE_CLASS_TEXT);
                 builder.setView(input);
 
-                builder.setPositiveButton("POST", new DialogInterface.OnClickListener() {
+
+                builder.setPositiveButton("SEND", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         input_text[0] = input.getText().toString();

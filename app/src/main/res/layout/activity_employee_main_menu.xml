@@ -16,8 +16,10 @@
             android:layout_width="357dp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="TextView"
-            android:textSize="20sp" />
+            android:paddingLeft="50dp"
+            android:text="@string/textview"
+            android:textStyle="bold"
+            android:textSize="28sp" />
 
         <ImageButton
             android:id="@+id/logout_btn_employee"
@@ -25,6 +27,7 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/logout"
             android:padding="15dp"
+            app:tint="@color/dark_orange"
             app:srcCompat="@android:drawable/ic_lock_power_off"
             tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
@@ -33,12 +36,12 @@
         android:id="@+id/post_fragment_container_employee"
         android:name="com.bcit.myapplication.PostRecyclerFragment"
         android:layout_width="match_parent"
-        android:layout_height="551dp" />
+        android:layout_height="610dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:itemBackground="@color/ocean"
+        android:layout_height="50dp"
+        app:itemBackground="@color/dark_blue"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
         app:menu="@menu/bottom_nav_menu_employee" />

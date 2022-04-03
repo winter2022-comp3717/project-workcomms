@@ -36,4 +36,5 @@
     <string name="welcome_to_workcomms">Welcome to WorkComms</string>
     <string name="register_employer_account">REGISTER EMPLOYER ACCOUNT</string>
     <string name="register_a_workplace">Register a WorkPlace</string>
+    <string name="textview">TextView</string>
 </resources>

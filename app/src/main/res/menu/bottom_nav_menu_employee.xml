@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/groupFragment"
+        android:id="@+id/notice"
         android:focusable="true"
         android:icon="@drawable/ic_group"
         android:title="Notice" />
     <item
-        android:id="@+id/groupPostFragment"
+        android:id="@+id/groupChat"
         android:focusable="true"
         android:icon="@drawable/ic_group_post"
         android:title="Group Chat" />
     <item
-        android:id="@+id/commentPostFragment"
+        android:id="@+id/addToGroupChat"
         android:focusable="true"
         android:icon="@drawable/ic_comment"
         android:title="Add to Group Chat" />
