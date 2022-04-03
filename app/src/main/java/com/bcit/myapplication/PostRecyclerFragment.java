@@ -65,10 +65,15 @@ public class PostRecyclerFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        //Create ArrayList for data storage of Recycler
         mParam1 = new ArrayList<>();
+
+        //Obtain references to Firebase auto and database for querying
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+
+        //Setup recycler
         RecyclerView recyclerView = view.findViewById(R.id.recycler_post_viewer);
         adapter = new PostRecyclerAdapter(mParam1);
         recyclerView.setAdapter(adapter);
@@ -78,6 +83,9 @@ public class PostRecyclerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
+    /**
+     * Helper function responsible for querying for the logged in user's Company ID.
+     */
     private void helper(){
         db.collection("Users")
                 .whereEqualTo("email", firebaseUser.getEmail())
@@ -93,17 +101,27 @@ public class PostRecyclerFragment extends Fragment {
         });
     }
 
+    /**
+     * Event listener responsible for checking if the Posts collection has been updated of
+     * the user's Company Collection and notifies the Recyclers adapter that it needs to be rebuilt.
+     *
+     * @param companyID a String of the logged in user's company ID.
+     */
     private void EventListenerOnPostsAdded(String companyID) {
         db.collection("Posts")
                 .whereEqualTo("companyID", companyID)
                 .orderBy("dateTime", Query.Direction.ASCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    public void onEvent(
+                            @Nullable QuerySnapshot value,
+                            @Nullable FirebaseFirestoreException error) {
+
                         if (error != null) {
                             Log.e("Firestore error", error.getMessage());
                             return;
                         }
+
                         for (DocumentChange dc : value.getDocumentChanges()) {
                             if (dc.getType() == DocumentChange.Type.ADDED) {
                                 QueryDocumentSnapshot snapshot = dc.getDocument();
@@ -120,6 +138,7 @@ public class PostRecyclerFragment extends Fragment {
                                 mParam1.add(0, newPost);
                             }
                         }
+                        //Notify recycler adapter that Post collection has been updated
                         adapter.notifyDataSetChanged();
                     }
                 });

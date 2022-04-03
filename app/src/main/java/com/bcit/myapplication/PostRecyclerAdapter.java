@@ -18,8 +18,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
     private ArrayList<PostModel> localDataSet;
 
     /**
-     * Provide a reference to the type of views that you are using
-     * This template comes with a TextView
+     * References a TextView for PostModel name and post
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView inputName;
@@ -43,7 +42,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
     /**
      * Initialize the dataset of the Adapter.
      *
-     * @param dataSet String[] containing the data to populate views to be used
+     * @param dataSet ArrayList containing the post data to populate views to be used
      *                by RecyclerView.
      */
     public PostRecyclerAdapter(ArrayList<PostModel> dataSet) {
