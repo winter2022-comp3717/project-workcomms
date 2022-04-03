@@ -87,9 +87,16 @@ public class EmployeeMainMenu extends AppCompatActivity implements View.OnClickL
                 });
     }
 
-    private void queryPosts() {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.post_fragment_container_employee, PostRecyclerFragment.newInstance(posts));
-        ft.commit();
+    public void queryPosts(BottomNavigationItemView navigationItemView) {
+        navigationItemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navigationItemView.requestFocus();
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.post_fragment_container_employee, PostRecyclerFragment.newInstance(posts));
+                ft.commit();
+            }
+        });
+
     }
 }

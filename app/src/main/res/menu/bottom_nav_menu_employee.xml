@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Group"
+    <item
+        android:id="@+id/groupFragment"
+        android:focusable="true"
         android:icon="@drawable/ic_group"
-        android:id="@+id/groupFragment"/>
-    <item android:title="Group Post"
+        android:title="Notice" />
+    <item
+        android:id="@+id/groupPostFragment"
+        android:focusable="true"
         android:icon="@drawable/ic_group_post"
-        android:id="@+id/groupPostFragment"/>
-    <item android:title="Comment"
+        android:title="Group Chat" />
+    <item
+        android:id="@+id/commentPostFragment"
+        android:focusable="true"
         android:icon="@drawable/ic_comment"
-        android:id="@+id/commentPostFragment"/>
+        android:title="Add to Group Chat" />
 </menu>

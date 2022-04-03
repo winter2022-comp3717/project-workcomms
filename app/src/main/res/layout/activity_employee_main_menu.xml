@@ -33,7 +33,7 @@
         android:id="@+id/post_fragment_container_employee"
         android:name="com.bcit.myapplication.PostRecyclerFragment"
         android:layout_width="match_parent"
-        android:layout_height="546dp" />
+        android:layout_height="551dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"

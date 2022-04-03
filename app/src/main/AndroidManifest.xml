@@ -15,10 +15,10 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".RegisterEmployee"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".EmployeeMainMenu"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".RegisterCompany"
             android:exported="false" />
