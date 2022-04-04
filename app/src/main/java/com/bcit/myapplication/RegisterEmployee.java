@@ -129,23 +129,26 @@ public class RegisterEmployee extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<DocumentReference> task) {
                         if (task.isSuccessful()){
-                            AlertDialog alertDialog = new AlertDialog.Builder(RegisterEmployee.this).create();
-                            alertDialog.setTitle("Alert");
-                            alertDialog.setMessage("Employee Registered");
-                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            dialogInterface.dismiss();
-                                            startActivity(new Intent(RegisterEmployee.this, EmployerMainMenu.class));
-                                        }
-                                    });
-                            alertDialog.show();
-                            Log.d("Tag", "onComplete: employee Added");
-
+                            alertNotice("Alert", "Employee Registered");
                         }
                     }
                 });
+    }
+
+    private void alertNotice(String Title, String Message){
+        AlertDialog alertDialog = new AlertDialog.Builder(RegisterEmployee.this).create();
+        alertDialog.setTitle(Title);
+        alertDialog.setMessage(Message);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        startActivity(new Intent(RegisterEmployee.this, EmployerMainMenu.class));
+                    }
+                });
+        alertDialog.show();
+        Log.d("Tag", "onComplete: employee Added");
     }
 
     private void setupSpinner(){
