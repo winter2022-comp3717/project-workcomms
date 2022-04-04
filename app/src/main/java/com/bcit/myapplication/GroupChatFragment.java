@@ -95,7 +95,11 @@ public class GroupChatFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
+    /**
+     * This function allows the fragment to display the group chat.
+     */
     private void helper(){
+        // Reference the user.
         db.collection("Users")
                 .whereEqualTo("email", firebaseUser.getEmail())
                 .get()
@@ -106,6 +110,7 @@ public class GroupChatFragment extends Fragment {
                             for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
                                 String companyID = documentSnapshot.getData().get("companyID").toString();
                                 String groupID = documentSnapshot.getData().get("groupID").toString();
+                                // Reference the group chat document
                                 db.collection("Companies")
                                         .document(companyID).collection("Posts")
                                         .whereEqualTo("companyID", groupID)
@@ -142,38 +147,4 @@ public class GroupChatFragment extends Fragment {
 
     }
 
-
-    private void EventListenerOnPostsAdded(String companyID) {
-        db.collection("Posts")
-                .whereEqualTo("companyID", companyID)
-                .orderBy("dateTime", Query.Direction.ASCENDING)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if (error != null) {
-                            Log.e("Firestore error", error.getMessage());
-                            return;
-                        }
-
-                        for (DocumentChange dc : value.getDocumentChanges()) {
-                            if (dc.getType() == DocumentChange.Type.ADDED) {
-                                QueryDocumentSnapshot snapshot = dc.getDocument();
-                                String companyID = (String) snapshot.getData().get("companyID");
-                                String posterName = (String) snapshot.getData().get("posterName");
-                                String senderId = (String) snapshot.getData().get("senderID");
-                                long dateTime = (long) snapshot.getData().get("dateTime");
-                                String message = snapshot.getData().get("message").toString();
-                                PostModel newPost = new PostModel(
-                                        companyID,
-                                        posterName,
-                                        senderId,
-                                        dateTime, message);
-                                mParam1.add(0, newPost);
-                            }
-                        }
-                        adapter.notifyDataSetChanged();
-                    }
-
-                });
-    }
 }

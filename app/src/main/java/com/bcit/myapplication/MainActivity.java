@@ -66,6 +66,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * this function authenticates the login activity from the firebase firestore
+     */
     private void login(){
         String email, password;
         email = emailTextView.getText().toString();
@@ -86,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        // for existing users
                         if(task.isSuccessful()){
                             db.collection("Users")
                                     .whereEqualTo("email", email)
@@ -108,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         }
                                     });
                         } else {
+                            // for new employee.
                             db.collection("Users")
                                     .whereEqualTo("email", email)
                                     .get()

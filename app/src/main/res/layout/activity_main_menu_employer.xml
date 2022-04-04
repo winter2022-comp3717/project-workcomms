@@ -37,14 +37,15 @@
         android:id="@+id/fragmentContainerView_main_menu"
         android:name="com.bcit.myapplication.PostRecyclerFragment"
         android:layout_width="match_parent"
-        android:layout_height="610dp" />
+        android:layout_height="610dp"
+        android:layout_gravity="bottom" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
+        android:clipToPadding="false"
         app:itemBackground="@color/dark_blue"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
-        android:clipToPadding="false"
-        app:menu="@menu/bottom_nav_menu_employer"/>
+        app:menu="@menu/bottom_nav_menu_employer" />
 </LinearLayout>

@@ -1,5 +1,8 @@
 package com.bcit.myapplication;
 
+/**
+ * This is a Model class for the employee which extends from Employee class.
+ */
 public class Employee extends User{
     private final String designation;
     private final String groupID;
@@ -9,10 +12,18 @@ public class Employee extends User{
         this.groupID = groupID;
     }
 
+    /**
+     * Access the designation for the Employee object.
+     * @return a String
+     */
     public String getDesignation() {
         return designation;
     }
 
+    /**
+     * Access the group ID for the Employee object.
+     * @return a String
+     */
     public String getGroupID() {
         return groupID;
     }

@@ -14,6 +14,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+/**
+ * This class extends application and hence validates the state of the user ie. checks if the
+ * user is logged in.
+ */
 public class Home extends Application {
     @Override
     public void onCreate() {
@@ -44,8 +48,6 @@ public class Home extends Application {
                             }
                         }
                     });
-
-            //startActivity(new Intent(Home.this, EmployerMainMenu.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else {
             startActivity(new Intent(this, StartPageRegisterOptions.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         }
