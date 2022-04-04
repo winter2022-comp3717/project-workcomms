@@ -74,9 +74,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         email = emailTextView.getText().toString();
         password = passwordTextView.getText().toString();
 
-        Intent employerIntent = new Intent(this, EmployerMainMenu.class);
-        Intent employeeIntent = new Intent(this, EmployeeMainMenu.class);
-
         if(TextUtils.isEmpty(email)){
             emailTextView.setError("Please Enter the email!");
             return;
@@ -91,48 +88,73 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         // for existing users
                         if(task.isSuccessful()){
-                            db.collection("Users")
-                                    .whereEqualTo("email", email)
-                                    .get()
-                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                            if(task.isSuccessful()) {
-                                                for (QueryDocumentSnapshot snapshot: task.getResult()) {
-                                                    String userType = snapshot.get("userType").toString();
-                                                    if (userType.equals("Employee")) {
-                                                        startActivity(employeeIntent);
-                                                    } else if (userType.equals("Employer")) {
-                                                        startActivity(employerIntent);
-                                                    } else {
-                                                        Log.e("ERR", "Error with user type");
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    });
+                            initiateActivitySelector(email);
                         } else {
                             // for new employee.
-                            db.collection("Users")
-                                    .whereEqualTo("email", email)
-                                    .get()
-                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                            if (task.isSuccessful()){
-                                                for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
-                                                        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                                                            @Override
-                                                            public void onSuccess(AuthResult authResult) {
-                                                                firebaseAuth.signInWithEmailAndPassword(email, password);
-                                                                startActivity(new Intent(MainActivity.this, EmployeeMainMenu.class));
-                                                            }
-                                                        });
-                                                }
-                                            }
-                                        }
-                                    });
+                            createNewEmployee(email, password);
                             return;
+                        }
+                    }
+                });
+    }
+
+    /**
+     * Create new Employee to firebaseAuth and start Employee intent.
+     *
+     * @param email a String
+     * @param password a String
+     */
+    private void createNewEmployee(String email, String password) {
+        db.collection("Users")
+                .whereEqualTo("email", email)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                                firebaseAuth.createUserWithEmailAndPassword(email, password)
+                                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                            @Override
+                                            public void onSuccess(AuthResult authResult) {
+                                                firebaseAuth.signInWithEmailAndPassword(email, password);
+                                                startActivity(new Intent(
+                                                        MainActivity.this,
+                                                        EmployeeMainMenu.class
+                                                ));
+                                            }
+                                        });
+                            }
+                        }
+                    }
+                });
+    }
+
+    /**
+     * Start activity for appropriate user type upon successful login of email account.
+     *
+     * @param email a String representing the user's email
+     */
+    private void initiateActivitySelector(String email) {
+        Intent employerIntent = new Intent(this, EmployerMainMenu.class);
+        Intent employeeIntent = new Intent(this, EmployeeMainMenu.class);
+        db.collection("Users")
+                .whereEqualTo("email", email)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for (QueryDocumentSnapshot snapshot: task.getResult()) {
+                                String userType = snapshot.get("userType").toString();
+                                if (userType.equals("Employee")) {
+                                    startActivity(employeeIntent);
+                                } else if (userType.equals("Employer")) {
+                                    startActivity(employerIntent);
+                                } else {
+                                    Log.e("ERR", "Error with user type");
+                                }
+                            }
                         }
                     }
                 });
