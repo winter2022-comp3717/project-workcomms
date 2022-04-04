@@ -114,6 +114,7 @@ public class GroupChatFragment extends Fragment {
                                 db.collection("Companies")
                                         .document(companyID).collection("Posts")
                                         .whereEqualTo("companyID", groupID)
+                                        .orderBy("dateTime", Query.Direction.ASCENDING)
                                         .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                             @Override
                                             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
