@@ -106,28 +106,8 @@ public class RegisterEmployee extends AppCompatActivity {
                                                                 userType, "", email_field,
                                                                 documentSnapshot.getData().get("companyID").toString(),
                                                                 designation_field, groupID);
-                                                        db.collection("Users").add(employee)
-                                                                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                                                    @Override
-                                                                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                                                                        if (task.isSuccessful()){
-                                                                            AlertDialog alertDialog = new AlertDialog.Builder(RegisterEmployee.this).create();
-                                                                            alertDialog.setTitle("Alert");
-                                                                            alertDialog.setMessage("Employee Registered");
-                                                                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                                                                                    new DialogInterface.OnClickListener() {
-                                                                                        @Override
-                                                                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                                                                            dialogInterface.dismiss();
-                                                                                            startActivity(new Intent(RegisterEmployee.this, EmployerMainMenu.class));
-                                                                                        }
-                                                                                    });
-                                                                            alertDialog.show();
-                                                                            Log.d("Tag", "onComplete: employee Added");
+                                                        registerUserHelper(employee);
 
-                                                                        }
-                                                                    }
-                                                                });
                                                         db.collection("Companies").document(companyID)
                                                                 .collection("Groups").document(groupID)
                                                                 .update("memberID", FieldValue.arrayUnion(email_field));
@@ -138,6 +118,31 @@ public class RegisterEmployee extends AppCompatActivity {
 
 
                             }
+                        }
+                    }
+                });
+    }
+
+    private void registerUserHelper(Employee employee){
+        db.collection("Users").add(employee)
+                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        if (task.isSuccessful()){
+                            AlertDialog alertDialog = new AlertDialog.Builder(RegisterEmployee.this).create();
+                            alertDialog.setTitle("Alert");
+                            alertDialog.setMessage("Employee Registered");
+                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                            startActivity(new Intent(RegisterEmployee.this, EmployerMainMenu.class));
+                                        }
+                                    });
+                            alertDialog.show();
+                            Log.d("Tag", "onComplete: employee Added");
+
                         }
                     }
                 });
