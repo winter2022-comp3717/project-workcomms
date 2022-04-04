@@ -29,10 +29,18 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Creates a RegisterActivity
+ */
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
 
+    /**
+     * Initialize the essential components on this activity.
+     *
+     * @param savedInstanceState a Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +57,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         spinnerSetup();
     }
 
+    /**
+     * sets the onclick for given components.
+     * @param v A View
+     */
     @Override
     public void onClick(View v){
         switch (v.getId()){
@@ -64,6 +76,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    /**
+     * Set the spinner up to be shown in the Register Activity.
+     */
     private void spinnerSetup(){
         Spinner spinner = (Spinner) findViewById(R.id.spinner_company_registration);
         CollectionReference companiesDB = db.collection("Companies");
@@ -94,6 +109,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         });
     }
 
+    /**
+     * Register the user.
+     */
     private void registerUser(){
         EditText name = (EditText) findViewById(R.id.edit_text_name_registration);
         EditText password = (EditText) findViewById(R.id.edit_text_password_registration);
